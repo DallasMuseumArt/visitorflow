@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.views.decorators.csrf import csrf_exempt
 from models import Sighting
@@ -17,7 +18,7 @@ def report(request):
         Sighting.objects.create(
             host=request.POST.get('host'),
             device_id=request.POST.get('device_id'),
-            timestamp=request.POST.get('timestamp'),
+            timestamp=datetime.fromtimestamp(int(request.POST.get('timestamp'))),
             signal_dbm=request.POST.get('signal_dbm'))
         return HttpResponse()
     else:
