@@ -24,15 +24,18 @@ def report(request):
     else:
         return HttpResponseBadRequest()
 
-class SightingViewSet(viewsets.ReadOnlyModelViewSet):
+class SightingViewSet(viewsets.ModelViewSet):
     queryset = Sighting.objects.all()
     serializer_class = SightingSerializer
     
+    def create(self, request):
+        return HttpResponse()
+
     def get_paginate_by(self):
         """ 
         User smaller pagination for HTML view
         """
         if self.request.accepted_renderer.format == 'api':
-            return 5
+            return 50
     
-        return 100 
+        return 1000
