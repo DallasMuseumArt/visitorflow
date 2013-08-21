@@ -7,9 +7,11 @@ import hashlib
 import socket
 import urllib
 import urllib2
+import pytz
+from datetime import datetime
 
 HOSTNAME = socket.gethostname()
-SERVER_ENDPOINT = 'http://10.11.0.11/agent/report/'
+SERVER_ENDPOINT = 'http://brain.dma.org/api/v1/visitorflow/'
 
 
 def main_loop():
@@ -68,7 +70,7 @@ def report(sightings):
         sighting = sightings[index]
         data = {
             'host': HOSTNAME,
-            'timestamp': sighting[0],
+            'timestamp': datetime.fromtimestamp(int(sighting[0])),
             'device_id': hashlib.md5(sighting[1]).hexdigest(),
             'signal_dbm': sighting[2]
         }
@@ -78,7 +80,10 @@ def report(sightings):
         try:
             req = urllib2.urlopen(SERVER_ENDPOINT, urllib.urlencode(data))
             req.close()
-        except:
+            print("Request successfully sent")
+        except urllib2.HTTPError, e:
+            print(e);
+            print("Request failed");
             pass
 
 
