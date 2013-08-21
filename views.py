@@ -27,9 +27,6 @@ def report(request):
 class SightingViewSet(viewsets.ModelViewSet):
     queryset = Sighting.objects.all()
     serializer_class = SightingSerializer
-    
-    def create(self, request):
-        return HttpResponse()
 
     def get_paginate_by(self):
         """ 
