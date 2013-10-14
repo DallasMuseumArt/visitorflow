@@ -4,7 +4,7 @@ class Sighting(models.Model):
     host = models.CharField(max_length=32)
     device_id = models.CharField(max_length=32)
     signal_dbm = models.IntegerField()
-    timestamp = models.IntegerField(db_index=True)
+    timestamp = models.DateTimeField()
     normalize_processed = models.BooleanField(default=False)
 
 class NormalizedSighting(models.Model):

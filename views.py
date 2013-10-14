@@ -7,7 +7,7 @@ from rest_framework import viewsets
 
 
 class SightingViewSet(viewsets.ModelViewSet):
-    queryset = Sighting.objects.all()
+    queryset = Sighting.objects.all().order_by('-timestamp')
     serializer_class = SightingSerializer
 
     def get_paginate_by(self):
