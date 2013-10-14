@@ -6,30 +6,9 @@ from serializers import SightingSerializer
 from rest_framework import viewsets
 
 
-@csrf_exempt
-def report(request):
-    if (request.method == 'POST'
-      and request.POST.get('host') is not None
-      and request.POST.get('device_id') is not None
-      and request.POST.get('timestamp') is not None
-      and request.POST.get('signal_dbm') is not None):
-
-        # create a new sighting from the request
-        Sighting.objects.create(
-            host=request.POST.get('host'),
-            device_id=request.POST.get('device_id'),
-            timestamp=datetime.fromtimestamp(int(request.POST.get('timestamp'))),
-            signal_dbm=request.POST.get('signal_dbm'))
-        return HttpResponse()
-    else:
-        return HttpResponseBadRequest()
-
 class SightingViewSet(viewsets.ModelViewSet):
     queryset = Sighting.objects.all()
     serializer_class = SightingSerializer
-    
-    def create(self, request):
-        return HttpResponse()
 
     def get_paginate_by(self):
         """ 
